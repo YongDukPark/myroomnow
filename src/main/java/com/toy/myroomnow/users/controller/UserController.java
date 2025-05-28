@@ -5,7 +5,7 @@ import com.toy.myroomnow.users.mapper.UserMapper;
 import com.toy.myroomnow.users.domain.User;
 import com.toy.myroomnow.users.service.SignupService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
     private final SignupService signupService;
-    private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
+//    private final UserMapper userMapper;
+//    private final PasswordEncoder passwordEncoder;
 
     //로그인 페이지로 화면 이동
     @GetMapping("/login")
@@ -34,11 +34,10 @@ public class UserController {
 
     //회원가입 진행
     @PostMapping("/users")
-    public String singUp(UserSignupDto userSignupDto){
-        User user = userMapper.toEntity(userSignupDto, passwordEncoder);
-
-
-
+    public String singUp(User user){
+//        User user = userMapper.toEntity(userSignupDto, passwordEncoder);
+        System.out.println("user.toString() = " + user.toString());
+        
         signupService.signup(user);
 
 
