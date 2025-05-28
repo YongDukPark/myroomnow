@@ -12,29 +12,30 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "userId")
-    private String userId;    // 사용자 ID 또는 이메일
-    @Column(name = "password")
+    //@Column(name = "userId")
+    private String userid;    // 사용자 ID 또는 이메일
+    //@Column(name = "password")
     private String password;    // 비밀번호
-    private String confirmPassword; // 비밀번호 확인 (프론트에서만 사용)
-    @Column(name = "userName")
-    private String userName;        // 이름
-    @Column(name = "phoneNumber")
-    private String phoneNumber; // 전화번호
-    @Column(name = "gender")
+    //private String confirmpassword; // 비밀번호 확인 (프론트에서만 사용)
+    //@Column(name = "userName")
+    private String username;        // 이름
+    //@Column(name = "phoneNumber")
+    private String phonenumber; // 전화번호
+    //@Column(name = "gender")
     private String gender;      // 성별
-    @Column(name = "birtDate")
-    private String birthDate; // 생년월일
-    @Column(name = "businessNumber")
-    private String businessNumber;
+    //@Column(name = "birthDate")
+    private String birthdate; // 생년월일
+    //@Column(name = "businessNumber")
+    private String businessnumber;
 
-    public User(String userId, String password, String userName, String phoneNumber, String gender, String birthDate, String businessNumber) {
-        this.userId = userId;
+    public User(Long id, String userid, String password, String username, String phonenumber, String gender, String birthdate, String businessnumber) {
+        this.id = id;
+        this.userid = userid;
         this.password = password;
-        this.userName = userName;
-        this.phoneNumber = phoneNumber;
+        this.username = username;
+        this.phonenumber = phonenumber;
         this.gender = gender;
-        this.birthDate = birthDate;
-        this.businessNumber = businessNumber;
+        this.birthdate = birthdate;
+        this.businessnumber = businessnumber;
     }
 }

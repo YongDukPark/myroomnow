@@ -18,12 +18,12 @@ public class JpaUserRepository implements UserRepository{
     }
 
     @Override
-    public Optional<User> findByUserId(String userId) {
+    public Optional<User> findByUserid(String userid) {
         return Optional.empty();
     }
 
     @Override
-    public boolean existsByBusinessNumber(String businessNumber) {
+    public boolean existsByBusinessnumber(String businessNumber) {
         return false;
     }
 }
