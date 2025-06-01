@@ -29,10 +29,13 @@ public class SignupService {
     }
 
     public void validateDuplicateMember(User user) {
-        userRepository.findByUserId(user.getUserId())
+        userRepository.findByUserid(user.getUserid())
             .ifPresent(m -> {
                 throw new IllegalStateException("이미 존재하는 회원입니다.");
             });
     }
 
+    public boolean existsByUserid(String userid) {
+        return userRepository.existsByUserid(userid);
+    }
 }

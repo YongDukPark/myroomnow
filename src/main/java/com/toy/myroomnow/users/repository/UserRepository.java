@@ -15,4 +15,6 @@ public interface UserRepository {
     //Optional<User> findByUserNameAndPhoneNumber(String userName, String phoneNumber);
     // 사업자 번호로 중복 체크
     boolean existsByBusinessnumber(String businessNumber);
+    // 회원가입시 중복 체크
+    boolean existsByUserid(String userid);
 }

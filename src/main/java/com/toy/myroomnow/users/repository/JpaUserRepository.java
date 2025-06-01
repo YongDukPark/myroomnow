@@ -26,4 +26,9 @@ public class JpaUserRepository implements UserRepository{
     public boolean existsByBusinessnumber(String businessNumber) {
         return false;
     }
+
+    @Override
+    public boolean existsByUserid(String userid) {
+        return false;
+    }
 }

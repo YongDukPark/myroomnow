@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 public class UserController {
@@ -44,6 +46,15 @@ public class UserController {
         return "redirect:/login";
     }
 
+    //중복확인
+    @PostMapping("/users/check-id")
+    @ResponseBody
+    public Map<String, Boolean> checkUserId(@RequestParam String userid){
+        boolean exists = signupService.existsByUserid(userid);
+        //boolean exists = userRepository.existsByUserid(userid);
+
+        return Map.of("available", !exists);
+    }
 
 
 }
