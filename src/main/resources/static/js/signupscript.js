@@ -117,6 +117,7 @@ document.getElementById("userid").addEventListener("input", function () {
     });
 });
 
+// 비밀번호 동일한지 체크 로직
 document.getElementById("password").addEventListener("input", checkPassword);
 document.getElementById("confirmPassword").addEventListener("input", checkPassword);
 
@@ -129,6 +130,14 @@ document.querySelector("form").addEventListener("submit", function (e) {
         alert("아이디 확인 및 중복확인 요청드립니다.");
         e.preventDefault();
         document.getElementById("userid").focus();
+        return;
+    }
+
+    if (!isPasswordChecked) {
+        alert("비밀번호가 동일하지 않습니다.");
+        e.preventDefault();
+        document.getElementById("password").focus();
+        return;
     }
 
     if (!validatePassword(pw)) {
@@ -145,20 +154,3 @@ document.querySelector("form").addEventListener("submit", function (e) {
         return;
     }
 });
-
-// 아이디가 바뀌면 다시 중복확인 필요하게
-//document.addEventListener("DOMContentLoaded", function () {
-//    const useridInput = document.getElementById("userid");
-//    useridInput.addEventListener("input", function () {
-//        isIdChecked = false;
-//        document.getElementById("checkResult").textContent = "";
-//    });
-//
-//    const form = document.querySelector("form");
-//    form.addEventListener("submit", function (e) {
-//        if (!isIdChecked) {
-//            e.preventDefault();
-//            alert("아이디 중복확인을 먼저 해주세요.");
-//        }
-//    });
-//});
