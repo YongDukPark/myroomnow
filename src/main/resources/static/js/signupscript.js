@@ -1,7 +1,8 @@
 let isIdChecked = false;
+let isPasswordChecked = false;
 
 function checkDuplicate() {
-    //event.preventDefault();
+    event.preventDefault();
     const userid = document.getElementById("userid").value;
     const result = document.getElementById("checkResult");
 
@@ -10,6 +11,17 @@ function checkDuplicate() {
         result.style.color = "orange";
         return;
     }
+    if (!validateUserId(userid)) {
+        alert("아이디에 한글은 사용할 수 없습니다.");
+        e.preventDefault();
+        return;
+    }
+    if (!validateEmailFormat(userid)) {
+        alert("이메일 형식 아이디를 부탁드립니다.");
+        e.preventDefault();
+        return;
+    }
+
     fetch("/users/check-id", {
         method : "POST",
         headers : {
@@ -42,13 +54,21 @@ function checkPassword(){
     const confirmPassword = document.getElementById("confirmPassword").value;
     const checkConfirmPassword = document.getElementById("checkConfirmPassword");
 
-    if(password != confirmPassword){
-        checkConfirmPassword.textContent = "비밀번호가 일치하지 않습니다.";
-        checkConfirmPassword.style.color = "red";
+    if(password.length == "" || confirmPassword == ""){
+        checkConfirmPassword.textContent = "";
+        isPasswordChecked = false;
     } else {
-        checkConfirmPassword.textContent = "비밀번호가 일치합니다.";
-        checkConfirmPassword.style.color = "lightgreen";
+        if(password != confirmPassword){
+            checkConfirmPassword.textContent = "비밀번호가 일치하지 않습니다.";
+            checkConfirmPassword.style.color = "red";
+            isPasswordChecked = false;
+        } else {
+            checkConfirmPassword.textContent = "비밀번호가 일치합니다.";
+            checkConfirmPassword.style.color = "lightgreen";
+            isPasswordChecked = true;
+        }
     }
+
 }
 
 // 한글 체크
@@ -78,55 +98,67 @@ function validatePassword(password) {
            specialChar.test(password);
 }
 //생년월일 형식 체크
-if (!validateBirthdate(birth)) {
-    alert("생년월일은 yyyyMMdd 형식으로 입력해주세요.");
-    return;
+//if (!validateBirthdate(birth)) {
+//    alert("생년월일은 yyyyMMdd 형식으로 입력해주세요.");
+//    return;
+//}
+
+function validateBirthdate(birth) {
+    const birthRegex = /^(19[0-9]{2}|20[0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/;
+    return birthRegex.test(birth);
 }
+
+
+document.getElementById("userid").addEventListener("input", function () {
+    const useridInput = document.getElementById("userid");
+    useridInput.addEventListener("input", function () {
+        isIdChecked = false;
+        document.getElementById("checkResult").textContent = "";
+    });
+});
+
+document.getElementById("password").addEventListener("input", checkPassword);
+document.getElementById("confirmPassword").addEventListener("input", checkPassword);
 
 // submit 이전 체크
 document.querySelector("form").addEventListener("submit", function (e) {
-    const userid = document.getElementById("userid").value;
     const pw = document.getElementById("password").value;
     const birth = document.getElementById("birthdate").value;
 
-    if (!validateUserId(userid)) {
-        alert("아이디에 한글은 사용할 수 없습니다.");
+    if (!isIdChecked) {
+        alert("아이디 확인 및 중복확인 요청드립니다.");
         e.preventDefault();
-        return;
-    }
-
-    if (!validateEmailFormat(userid)) {
-        alert("이메일 형식 아이디를 부탁드립니다.");
-        e.preventDefault();
-        return;
+        document.getElementById("userid").focus();
     }
 
     if (!validatePassword(pw)) {
         alert("비밀번호는 대소문자, 숫자, 특수문자를 포함한 8~16자여야 합니다.");
         e.preventDefault();
+        document.getElementById("birthdate").focus();
         return;
     }
 
     if (!validateBirthdate(birth)) {
         alert("생년월일은 yyyyMMdd 형식으로 입력해주세요.");
         e.preventDefault();
+        document.getElementById("birthdate").focus();
         return;
     }
 });
 
 // 아이디가 바뀌면 다시 중복확인 필요하게
-document.addEventListener("DOMContentLoaded", function () {
-    const useridInput = document.getElementById("userid");
-    useridInput.addEventListener("input", function () {
-        isIdChecked = false;
-        document.getElementById("checkResult").textContent = "";
-    });
-
-    const form = document.querySelector("form");
-    form.addEventListener("submit", function (e) {
-        if (!isIdChecked) {
-            e.preventDefault();
-            alert("아이디 중복확인을 먼저 해주세요.");
-        }
-    });
-});
+//document.addEventListener("DOMContentLoaded", function () {
+//    const useridInput = document.getElementById("userid");
+//    useridInput.addEventListener("input", function () {
+//        isIdChecked = false;
+//        document.getElementById("checkResult").textContent = "";
+//    });
+//
+//    const form = document.querySelector("form");
+//    form.addEventListener("submit", function (e) {
+//        if (!isIdChecked) {
+//            e.preventDefault();
+//            alert("아이디 중복확인을 먼저 해주세요.");
+//        }
+//    });
+//});
