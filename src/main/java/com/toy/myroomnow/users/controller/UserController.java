@@ -1,14 +1,13 @@
 package com.toy.myroomnow.users.controller;
 
-import com.toy.myroomnow.users.dto.UserSignupDto;
-import com.toy.myroomnow.users.mapper.UserMapper;
 import com.toy.myroomnow.users.domain.User;
+import com.toy.myroomnow.users.service.LoginServiceOld;
 import com.toy.myroomnow.users.service.SignupService;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
@@ -17,15 +16,31 @@ import java.util.Map;
 public class UserController {
 
     private final SignupService signupService;
+    private final LoginServiceOld loginService;
 //    private final UserMapper userMapper;
 //    private final PasswordEncoder passwordEncoder;
 
     //로그인 페이지로 화면 이동
     @GetMapping("/login")
-    public ModelAndView loginForm(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("loginform");
-        return mv;
+    public String loginForm(@RequestParam(value = "error", required = false) String error, Model model){
+        if (error != null) {
+            model.addAttribute("loginError", "등록된 회원이 아니거나 비밀번호가 틀렸습니다.");
+        }
+
+        return "loginform";
+    }
+
+    //로그인 진행
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password, Model model){
+        boolean success = loginService.login(username, password);
+
+        if(success){
+            return "redirect:/admin/index";
+        } else {
+            model.addAttribute("error", "등록된 회원이 아니거나 비밀번호가 틀렸습니다.");
+            return "loginform";
+        }
     }
 
     //회원가입 페이지로 화면 이동
@@ -37,11 +52,8 @@ public class UserController {
     //회원가입 진행
     @PostMapping("/users")
     public String singUp(User user){
-//        User user = userMapper.toEntity(userSignupDto, passwordEncoder);
-        System.out.println("user.toString() = " + user.toString());
-        
-        signupService.signup(user);
 
+        signupService.signup(user);
 
         return "redirect:/login";
     }
@@ -55,6 +67,4 @@ public class UserController {
 
         return Map.of("available", !exists);
     }
-
-
 }

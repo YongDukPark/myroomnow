@@ -28,6 +28,9 @@ public class User {
     //@Column(name = "businessNumber")
     private String businessnumber;
 
+    public User() {
+    }
+
     public User(Long id, String userid, String password, String username, String phonenumber, String gender, String birthdate, String businessnumber) {
         this.id = id;
         this.userid = userid;
