@@ -23,24 +23,12 @@ public class UserController {
     //로그인 페이지로 화면 이동
     @GetMapping("/login")
     public String loginForm(@RequestParam(value = "error", required = false) String error, Model model){
+        System.out.println("?????????");
         if (error != null) {
             model.addAttribute("loginError", "등록된 회원이 아니거나 비밀번호가 틀렸습니다.");
         }
 
         return "loginform";
-    }
-
-    //로그인 진행
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model){
-        boolean success = loginService.login(username, password);
-
-        if(success){
-            return "redirect:/admin/index";
-        } else {
-            model.addAttribute("error", "등록된 회원이 아니거나 비밀번호가 틀렸습니다.");
-            return "loginform";
-        }
     }
 
     //회원가입 페이지로 화면 이동
@@ -61,7 +49,7 @@ public class UserController {
     //중복확인
     @PostMapping("/users/check-id")
     @ResponseBody
-    public Map<String, Boolean> checkUserId(@RequestParam String userid){
+    public Map<String, Boolean> checkUserId(@RequestParam("userid") String userid){
         boolean exists = signupService.existsByUserid(userid);
         //boolean exists = userRepository.existsByUserid(userid);
 
