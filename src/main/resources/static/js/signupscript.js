@@ -86,14 +86,14 @@ function validateEmailFormat(email) {
 // 비밀번호 형식 체크
 function validatePassword(password) {
     const lengthCheck = /^.{8,16}$/;
-    const lowerCase = /[a-z]/;
-    const upperCase = /[A-Z]/;
+    const letter = /[a-zA-Z]/;
     const number = /[0-9]/;
     const specialChar = /[!@#$%^&*(),.?":{}|<>]/;
 
+    con
+
     return lengthCheck.test(password) &&
-           lowerCase.test(password) &&
-           upperCase.test(password) &&
+           letter.test(password) &&
            number.test(password) &&
            specialChar.test(password);
 }
