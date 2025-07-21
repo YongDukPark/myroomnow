@@ -9,9 +9,4 @@ public class HomeController {
     public String home(){
         return "loginform";
     }
-
-    @GetMapping("/index")
-    public String index(){
-        return "index";
-    }
 }

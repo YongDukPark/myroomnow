@@ -21,7 +21,7 @@ public class CustomUserDetails implements UserDetails {
     // 로그인 ID
     @Override
     public String getUsername() {
-        return user.getUserid();
+        return user.getUsername();
     }
 
     @Override
@@ -47,8 +47,8 @@ public class CustomUserDetails implements UserDetails {
     @Override public boolean isEnabled() { return true; }
 
     // 💡 추가 사용자 정보 접근자
-    public String getUsernameKor() {
-        return user.getUsername();
+    public String getUserid() {
+        return user.getUserid();
     }
 
     public String getPhoneNumber() {
