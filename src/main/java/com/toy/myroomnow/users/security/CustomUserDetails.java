@@ -47,6 +47,10 @@ public class CustomUserDetails implements UserDetails {
     @Override public boolean isEnabled() { return true; }
 
     // 💡 추가 사용자 정보 접근자
+    public Long getId() {
+        return user.getId();
+    }
+
     public String getUserid() {
         return user.getUserid();
     }
