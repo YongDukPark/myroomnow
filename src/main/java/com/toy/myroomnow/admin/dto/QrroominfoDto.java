@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class QrroominfoDto {
     private Long id;
     private Long createid;
+    private String type;
     private String qrcode;
     private String name;
     private String content;

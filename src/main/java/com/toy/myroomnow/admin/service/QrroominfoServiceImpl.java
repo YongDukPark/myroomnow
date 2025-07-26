@@ -36,6 +36,7 @@ public class QrroominfoServiceImpl implements QrroominfoService{
                 .map(qr -> new QrroominfoDto(
                         qr.getId(),
                         qr.getCreateid(),
+                        qr.getType(),
                         qr.getQrcode(),
                         qr.getName(),
                         qr.getContent(),

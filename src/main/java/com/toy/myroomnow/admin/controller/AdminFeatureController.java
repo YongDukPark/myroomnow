@@ -36,19 +36,20 @@ public class AdminFeatureController {
     public String qrUpdateForm(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                             Model model){
 
-        model.addAttribute();
+        model.addAttribute("id", customUserDetails.getId());
+        model.addAttribute("qrroominfo", new QrroominfoDto());
 
-        return "admin/qr/qrupdateform";
+        return "admin/qr/qrupsertform";
     }
 
     //QR Update폼
-    @PostMapping("/admin/qrs/update")
+    @GetMapping("/admin/qrs/update")
     public String qrUpdateForm(@RequestParam("id") Long id,
                                Model model){
 
-        model.addAttribute();
+        model.addAttribute(null);
 
-        return "admin/qr/qrupdateform";
+        return "admin/qr/qrupsertform";
     }
 
     //QR 객실정보 저장 및 수정
