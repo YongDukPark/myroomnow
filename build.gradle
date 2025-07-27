@@ -44,6 +44,8 @@ dependencies {
 	//임시DB
 	runtimeOnly 'com.h2database:h2'
 
+	//coolsms
+	implementation 'net.nurigo:sdk:4.3.2'
 }
 
 tasks.named('test') {
