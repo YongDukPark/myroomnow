@@ -1,43 +1,56 @@
 package com.toy.myroomnow.users.controller;
 
+import com.toy.myroomnow.users.service.FindUserService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/users")
 public class FindUserController {
 
-    final DefaultMessageService messageService;
+    private FindUserService findUserService;
 
-    @Value("${smsApiKey}")
-    private String smsApiKey;
+    @PostMapping("/send-auth-code")
+    public ResponseEntity<?> sendAuthCode(@RequestParam("userPhoneNumber") String userPhoneNumber, HttpSession session) {
+        String code = findUserService.sendAuthCode(userPhoneNumber);
+        session.setAttribute("authCode", code);
+        session.setAttribute("userPhoneNumber", userPhoneNumber);
 
-    @Value("${smsSecretKey}")
-    private String smsSecretKey;
+        Map<String, String> body = new HashMap<>();
+        body.put("message", "인증번호가 전송되었습니다.");
 
-    public FindUserController() {
-        this.messageService = NurigoApp.INSTANCE.initialize(smsApiKey, smsSecretKey, "https://api.coolsms.co.kr\"");
+        return ResponseEntity.ok(body);
     }
 
-    @PostMapping("/send-one")
-    public SingleMessageSentResponse sendOne(@RequestParam("userPhoneNumber") String userPhoneNumber, HttpSession session) {
+    @PostMapping("/verify-auth-code")
+    public ResponseEntity<?> verifyCode(@RequestParam("code") String code, HttpSession session) {
+        String sessionCode = (String)session.getAttribute("authCode");
+        String phoneNumber = (String)session.getAttribute("userPhoneNumber");
 
-        Message message = new Message();
-        // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-        message.setFrom("01046665190");
-        message.setTo(userPhoneNumber);
-        message.setText("한글 45자, 영자 90자 이하 입력되면 자동으로 SMS타입의 메시지가 추가됩니다.");
+        //아이디
+        if (sessionCode != null && sessionCode.equals(code)) {
+            String userId =
 
-        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-        System.out.println(response);
-
-        return response;
+            Map<String, String> body = new HashMap<>();
+            body.put("userId", userId);
+            return ResponseEntity.ok(body); // 200 OK
+        } else {
+            model.addAttribute("error", "인증번호가 일치하지 않습니다.");
+            return "verify-code";
+        }
     }
 }
