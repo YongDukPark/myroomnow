@@ -9,5 +9,11 @@ public interface SpringDataJpaUserRepository extends JpaRepository<User, Long>, 
     @Override
     Optional<User> findByUserid(String userId);
 
+    // 아이디 찾기
+    @Override
+    Optional<User> findByPhonenumber(String phonenumber);
+    // 비밀번호 찾기
+    @Override
+    Optional<User> findByUseridAndPhonenumber(String userId, String phonenumber);
 
 }

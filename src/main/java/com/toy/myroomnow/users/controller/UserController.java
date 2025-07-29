@@ -45,6 +45,11 @@ public class UserController {
         return "redirect:/login";
     }
 
+    @GetMapping("/users/find")
+    public String findUser(){
+        return "user/finduserform";
+    }
+
     //중복확인
     @PostMapping("/users/check-id")
     @ResponseBody
