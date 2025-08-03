@@ -90,8 +90,6 @@ function validatePassword(password) {
     const number = /[0-9]/;
     const specialChar = /[!@#$%^&*(),.?":{}|<>]/;
 
-    con
-
     return lengthCheck.test(password) &&
            letter.test(password) &&
            number.test(password) &&
