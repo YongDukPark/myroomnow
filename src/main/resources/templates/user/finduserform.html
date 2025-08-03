@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>오늘은 내집 - 계정찾기</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <style>
+        input::placeholder {
+            color: #bbb;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-dark text-white d-flex justify-content-center align-items-center" style="min-height: 100vh; overflow-y: auto;">
+<div class="card bg-secondary text-white p-4 shadow" style="width: 350px;">
+    <h3 class="mb-3">계정찾기</h3>
+    <div>
+        <p>
+            <input type="radio" name="findusertype" value="id" id="radio1" checked>
+            <label for="radio1">아이디 찾기</label>
+            <input type="radio" name="findusertype" value="password" id="radio2">
+            <label for="radio2">비밀번호 찾기</label>
+        </p>
+        <div class="mb-3">
+            <label for="username" class="form-label">성함</label>
+            <input type="text" class="form-control bg-dark text-white border-secondary" id="username" name="username" required autofocus />
+        </div>
+        <div class="mb-3" id="idarea" style="display:none;">
+            <label for="userid" class="form-label">아이디</label>
+            <div class="form-text text-warning">-없이 기입</div>
+            <input type="text" class="form-control bg-dark text-white border-secondary" id="userid" name="phonenumber" required />
+        </div>
+        <div class="mb-3">
+            <label for="phonenumber" class="form-label">번호</label>
+            <div class="form-text text-warning">-없이 기입</div>
+            <input type="text" class="form-control bg-dark text-white border-secondary" id="phonenumber" name="phonenumber" maxlength="11" required />
+        </div>
+
+        <div class="mb-3" id="sendauthcodearea">
+            <button type="button" class="btn btn-danger w-10 mt-1" onclick="sendAuthCode()">인증번호 발송</button>
+        </div>
+        <div class="mb-3" id="codearea" style="display:none">
+            <input type="text" class="form-control bg-dark text-white border-secondary" id="code" maxlength="8" required />
+            <span id="timer" class="text-warning"></span>
+            <button type="button" class="btn btn-danger w-10 mt-1" onclick="submitCode()">인증</button>
+        </div>
+        <div class="mb-3" id="resetpasswordarea" style="display:none">
+            <label for="password" class="form-label">재설정할 비밀번호</label>
+            <div class="form-text text-warning">문자, 숫자, 특수문자 조합 8~16 자리</div>
+            <input type="password" class="form-control bg-dark text-white border-secondary" id="password" name="password" minlength="8" maxlength="16" required/>
+        </div>
+        <div class="mb-3" id="cleararea" style="display:none">
+            <button type="button" class="btn btn-danger w-10 mt-1" id="findClear" onclick="findClear()">아이디 메일로 전송</button>
+        </div>
+    </div>
+    <div class="mt-3 text-center">
+        <a th:href="@{/login}" class="text-white">로그인 페이지로 돌아가기</a>
+    </div>
+</div>
+<script th:src="@{/js/finduser.js}"></script>
+</body>
+</html>
