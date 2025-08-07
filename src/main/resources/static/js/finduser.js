@@ -56,12 +56,16 @@ function sendAuthCode() {
         return;
     }
 
-    fetch("/users/check-id", {
+    fetch("/api/users/send-auth-code", {
         method : "POST",
-        headers : {
-             "Content-Type": "application/x-www-form-urlencoded",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body : `userid=${encodeURIComponent(userid)}`
+        body: JSON.stringify({
+            userid: userid,
+            username: username,
+            phonenumber: phonenumber,
+            type: selectedValue
         })
         .then(res => {
             if (res.ok) {
@@ -91,12 +95,15 @@ function submitCode() {
         return;
     }
 
-    fetch("/users/check-id", {
+    fetch("/api/users/verify-auth-code", {
         method : "POST",
         headers : {
-             "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json"
+//             "Content-Type": "application/x-www-form-urlencoded",
         },
-        body : `userid=${encodeURIComponent(userid)}`
+        body: JSON.stringify({
+            code: code,
+            type: selectedValue
         })
         .then(res => {
             if (res.ok) {
